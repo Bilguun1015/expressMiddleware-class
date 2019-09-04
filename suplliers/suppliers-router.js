@@ -2,6 +2,14 @@ const express = require('express');
 
 const router = express.Router();
 
+function uppercaser(req, res, next) {
+    let name = req.params.name;
+    if(name){
+        req.name = name.toUpperCase();
+    }
+    next();
+}
+
 // const router = require('express').Router();
 // a router can have middleware that applies only to the router
 router.use(express.json());
@@ -14,9 +22,9 @@ router.get('/', (req, res) => {
 });
 
 //GET to /products/:id
-router.get('/:name', (req, res) => {
+router.get('/:name',uppercaser, (req, res) => {
     const { name } = req.params
-    res.send(`get to /suppliers/${name}`)
+    res.send(`get to /suppliers/${req.name}`)
 });
 
 module.exports = router;
